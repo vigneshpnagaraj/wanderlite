@@ -538,5 +538,21 @@
   amzn("addTag", "63038c42-f1e7-49b9-94a7-a618cf31b0c0");
   amzn("trackEvent", "PageView");
 </script>
+
+<script>
+  // Track "Plan A Trip" click as a Checkout event
+  document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById("planTripBtn");
+    if (btn) {
+      btn.addEventListener("click", function() {
+        if (window.amzn) {
+          amzn("trackEvent", "Checkout");
+          console.log("Amazon Ad Tag: Checkout event fired :rocket:");
+        }
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
