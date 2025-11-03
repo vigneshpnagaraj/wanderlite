@@ -1,39 +1,35 @@
-// dynamic-event-loader.js
-// Dynamically loads event configs from JSON and attaches to DOM
-// Add <script src="dynamic-event-loader.js"></script> to your HTML (after amzn.js)
-
+<script>
+/* Inline dynamic-event-loader for testing – replace with src once GitHub fixed */
 (function() {
-    const CONFIG_URL = 'https://raw.githubusercontent.com/vigneshpnagaraj/wanderlite/main/event-configs.json';
+    const CONFIGS = [  // Inline JSON for testing (replace with fetch later)
+      {
+        "selector": "nav .nav-links a[href='#book']",
+        "event": "CheckOut",
+        "domSnippet": "<a href=\"#book\">Book</a>"
+      }
+    ];
 
-    async function loadAndAttachEvents() {
+    function loadAndAttachEvents() {
         try {
-            const response = await fetch(CONFIG_URL, { cache: 'no-store' });
-            if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
-            
-            const configs = await response.json(); // Array of {selector, event, domSnippet}
+            const configs = CONFIGS;  // Use inline for test
             
             if (configs.length === 0) {
-                console.warn('No configs found in event-configs.json – nothing to attach.');
+                console.warn('No configs – nothing to attach.');
                 return;
             }
             
             configs.forEach(config => {
                 const element = document.querySelector(config.selector);
                 if (element) {
-                    // Attach click listener (remove if already bound)
                     if (!element.dataset.eventBound) {
                         element.dataset.eventBound = 'true';
                         element.addEventListener('click', (e) => {
-                            // Prevent default if needed (e.g., for links)
-                            // e.preventDefault(); // Uncomment if it should not navigate
-                            
-                            // Track via AAT (from event-tracker.js)
                             if (typeof amzn !== 'undefined' && amzn.trackEvent) {
                                 amzn.trackEvent(config.event, {
                                     url: location.href,
                                     timestamp: new Date().toISOString(),
                                     domSnippet: config.domSnippet,
-                                    elementId: element.id || 'no-id' // Extra context
+                                    elementId: element.id || 'no-id'
                                 });
                                 console.log(`Amazon tag fired: ${config.event} on ${config.selector}`);
                             } else {
@@ -52,10 +48,10 @@
         }
     }
 
-    // Load after DOM and amzn.js are ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', loadAndAttachEvents);
     } else {
         loadAndAttachEvents();
     }
 })();
+</script>
