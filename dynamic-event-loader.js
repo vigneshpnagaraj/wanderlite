@@ -7,29 +7,32 @@
 
     async function loadAndAttachEvents() {
         try {
-            const response = await fetch(CONFIG_URL);
-            if (!response.ok) throw new Error('Failed to fetch configs');
+            const response = await fetch(CONFIG_URL, { cache: 'no-store' }); // No cache for fresh fetches
+            if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
             
             const configs = await response.json(); // Array of {selector, event, domSnippet}
+            
+            if (configs.length === 0) {
+                console.warn('No configs found in event-configs.json – nothing to attach.');
+                return;
+            }
             
             configs.forEach(config => {
                 const element = document.querySelector(config.selector);
                 if (element) {
-                    // Attach click listener (remove if already bound)
                     if (!element.dataset.eventBound) {
                         element.dataset.eventBound = 'true';
                         element.addEventListener('click', (e) => {
-                            // Prevent default if needed (e.g., for links)
-                            // e.preventDefault(); // Uncomment if it should not navigate
+                            // e.preventDefault(); // Uncomment if you want to block the link's default (scroll)
                             
-                            // Track via AAT (from event-tracker.js)
                             if (typeof amzn !== 'undefined' && amzn.trackEvent) {
                                 amzn.trackEvent(config.event, {
                                     url: location.href,
                                     timestamp: new Date().toISOString(),
                                     domSnippet: config.domSnippet,
-                                    elementId: element.id || 'no-id' // Extra context
+                                    elementId: element.id || 'no-id'
                                 });
+                                console.log(`Amazon tag fired: ${config.event} on ${config.selector}`);
                             } else {
                                 console.log(`Tracked (fallback): ${config.event} on ${config.selector}`);
                             }
@@ -46,7 +49,7 @@
         }
     }
 
-    // Load after DOM and amzn.js are ready
+    // Load after DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', loadAndAttachEvents);
     } else {
