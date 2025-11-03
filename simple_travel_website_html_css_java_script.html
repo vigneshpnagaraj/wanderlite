@@ -5,119 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>WanderLite — Simple Travel Site</title>
   <style>
-    :root {
-      --bg: #0b1020;
-      --elev: #121836;
-      --text: #e9eef6;
-      --muted: #bfc7da;
-      --brand: #6ee7b7;
-      --accent: #93c5fd;
-      --danger: #fca5a5;
-      --ring: #60a5fa80;
-    }
-
-    [data-theme="light"] {
-      --bg: #f7f9fc;
-      --elev: #ffffff;
-      --text: #0f172a;
-      --muted: #475569;
-      --brand: #14b8a6;
-      --accent: #2563eb;
-      --danger: #dc2626;
-      --ring: #2563eb40;
-    }
-
-    * { box-sizing: border-box }
-    html { scroll-behavior: smooth }
-    body {
-      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-      background: var(--bg); color: var(--text);
-    }
-    a { color: inherit; text-decoration: none }
-    img { max-width: 100%; display: block }
-
-    /* Layout helpers */
-    .container { width: min(1100px, 92%); margin: 0 auto }
-    .row { display: grid; gap: 1rem }
-
-    /* Top Nav */
-    .nav {
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: blur(8px);
-      background: color-mix(in oklab, var(--bg) 82%, transparent);
-      border-bottom: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
-    }
-    .nav-inner { display:flex; align-items:center; justify-content:space-between; padding: .75rem 0 }
-    .nav .brand { font-weight: 800; letter-spacing:.3px }
-    .nav a:hover { opacity:.9 }
-    .nav-links { display:flex; gap: 1rem; align-items:center }
-    .btn { display:inline-flex; align-items:center; gap:.4rem; border:1px solid transparent; padding:.55rem .9rem; border-radius:999px; font-weight:600; cursor:pointer }
-    .btn-primary { background: var(--brand); color: #06241b }
-    .btn-outline { border-color: color-mix(in oklab, var(--text) 18%, transparent) }
-
-    /* Hero */
-    .hero { position: relative; isolation:isolate }
-    .hero::after {
-      content:""; position:absolute; inset:0; z-index:-1;
-      background: radial-gradient(800px 400px at 20% 0%, #10b98133, transparent 70%),
-                  radial-gradient(600px 300px at 90% -10%, #60a5fa33, transparent 60%);
-      pointer-events:none;
-    }
-    .hero-inner { display:grid; gap: 1.25rem; padding: 4rem 0 3rem }
-    .headline { font-size: clamp(2rem, 4vw, 3rem); line-height:1.05; margin:0 }
-    .subline { color: var(--muted); max-width: 55ch }
-    .searchbar { display:flex; flex-wrap:wrap; gap:.6rem }
-    .searchbar input, select {
-      background: var(--elev); color: var(--text);
-      border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
-      border-radius: 12px; padding: .75rem .9rem; outline: none;
-    }
-    .searchbar input:focus, .searchbar select:focus { box-shadow: 0 0 0 6px var(--ring) }
-
-    /* Sections */
-    section { padding: 2.25rem 0 }
-    .section-title { margin: 0 0 1rem; font-size: 1.35rem }
-
-    /* Cards grid */
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem }
-    .card { background: var(--elev); border: 1px solid color-mix(in oklab, var(--text) 10%, transparent); border-radius: 16px; overflow: hidden; display:flex; flex-direction:column }
-    .card-media { aspect-ratio: 16/10; overflow:hidden }
-    .card-media img { width:100%; height:100%; object-fit:cover; filter:saturate(1.05) contrast(1.05) }
-    .card-body { padding: .85rem }
-    .chip { display:inline-flex; align-items:center; padding:.25rem .55rem; border-radius:999px; font-size:.75rem; border:1px solid color-mix(in oklab, var(--text) 16%, transparent); color: var(--muted) }
-    .card-actions { display:flex; gap:.5rem; margin-top:.75rem }
-
-    /* Two-column split */
-    .split { display:grid; grid-template-columns: 1.2fr .8fr; gap: 1.25rem }
-    @media (max-width: 900px) { .split { grid-template-columns: 1fr } }
-
-    /* Form */
-    .panel { background: var(--elev); border:1px solid color-mix(in oklab, var(--text) 10%, transparent); border-radius:16px; padding:1rem }
-    .stack { display:grid; gap:.6rem }
-    label { font-size:.9rem; color: var(--muted) }
-    input, select, textarea { width:100%; background: var(--elev); color: var(--text); border:1px solid color-mix(in oklab, var(--text) 12%, transparent); border-radius:12px; padding:.7rem .8rem }
-    input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 6px var(--ring); outline:none }
-    .muted { color: var(--muted) }
-    .price { font-weight:800 }
-
-    /* Accordion */
-    .accordion details { background: var(--elev); border:1px solid color-mix(in oklab, var(--text) 10%, transparent); border-radius: 12px; padding:.7rem 1rem }
-    .accordion details[open] { outline: 2px solid color-mix(in oklab, var(--accent) 50%, transparent) }
-    .accordion summary { cursor: pointer; font-weight:600 }
-
-    /* Footer */
-    footer { border-top:1px solid color-mix(in oklab, var(--text) 10%, transparent); padding: 2rem 0; text-align:center; color: var(--muted) }
-
-    .pillbar { display:flex; flex-wrap:wrap; gap:.5rem }
-    .pill {
-      border: 1px solid color-mix(in oklab, var(--text) 15%, transparent);
-      padding:.35rem .7rem; border-radius:999px; cursor:pointer; color: var(--muted)
-    }
-    .pill[aria-pressed="true"] { background: color-mix(in oklab, var(--brand) 25%, transparent); color: #06241b; border-color: transparent }
-
-    .toast { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%);
-      background: var(--elev); color: var(--text); border: 1px solid color-mix(in oklab, var(--text) 10%, transparent); padding: .6rem .9rem; border-radius: 10px; display:none }
-    .sr-only { position:absolute; width:1px; height:1px; margin:-1px; border:0; padding:0; clip:rect(0 0 0 0); overflow:hidden }
+    :root{--bg:#0b1020;--elev:#121836;--text:#e9eef6;--muted:#bfc7da;--brand:#6ee7b7;--accent:#93c5fd;--danger:#fca5a5;--ring:#60a5fa80}
+    [data-theme="light"]{--bg:#f7f9fc;--elev:#ffffff;--text:#0f172a;--muted:#475569;--brand:#14b8a6;--accent:#2563eb;--danger:#dc2626;--ring:#2563eb40}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--text)}
+    a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+    .container{width:min(1100px,92%);margin:0 auto}
+    .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);background:color-mix(in oklab,var(--bg) 82%,transparent);border-bottom:1px solid color-mix(in oklab,var(--text) 12%,transparent)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0}
+    .nav-links{display:flex;gap:1rem;align-items:center}
+    .btn{display:inline-flex;align-items:center;gap:.4rem;border:1px solid transparent;padding:.55rem .9rem;border-radius:999px;font-weight:600;cursor:pointer}
+    .btn-primary{background:var(--brand);color:#06241b}
+    .btn-outline{border-color:color-mix(in oklab,var(--text) 18%,transparent)}
+    .hero{position:relative;isolation:isolate}
+    .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(800px 400px at 20% 0%,#10b98133,transparent 70%),radial-gradient(600px 300px at 90% -10%,#60a5fa33,transparent 60%);pointer-events:none}
+    .hero-inner{display:grid;gap:1.25rem;padding:4rem 0 3rem}
+    .headline{font-size:clamp(2rem,4vw,3rem);line-height:1.05;margin:0}
+    .subline{color:var(--muted);max-width:55ch}
+    .searchbar{display:flex;flex-wrap:wrap;gap:.6rem}
+    .searchbar input,.searchbar select{background:var(--elev);color:var(--text);border:1px solid color-mix(in oklab,var(--text) 12%,transparent);border-radius:12px;padding:.75rem .9rem;outline:none}
+    .searchbar input:focus,.searchbar select:focus{box-shadow:0 0 0 6px var(--ring)}
+    section{padding:2.25rem 0}
+    .section-title{margin:0 0 1rem;font-size:1.35rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem}
+    .card{background:var(--elev);border:1px solid color-mix(in oklab,var(--text) 10%,transparent);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .card-media{aspect-ratio:16/10;overflow:hidden}
+    .card-media img{width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.05)}
+    .card-body{padding:.85rem}
+    .chip{display:inline-flex;align-items:center;padding:.25rem .55rem;border-radius:999px;font-size:.75rem;border:1px solid color-mix(in oklab,var(--text) 16%,transparent);color:var(--muted)}
+    .card-actions{display:flex;gap:.5rem;margin-top:.75rem}
+    .split{display:grid;grid-template-columns:1.2fr .8fr;gap:1.25rem}
+    @media(max-width:900px){.split{grid-template-columns:1fr}}
+    .panel{background:var(--elev);border:1px solid color-mix(in oklab,var(--text) 10%,transparent);border-radius:16px;padding:1rem}
+    .stack{display:grid;gap:.6rem}
+    label{font-size:.9rem;color:var(--muted)}
+    input,select,textarea{width:100%;background:var(--elev);color:var(--text);border:1px solid color-mix(in oklab,var(--text) 12%,transparent);border-radius:12px;padding:.7rem .8rem}
+    input:focus,select:focus,textarea:focus{box-shadow:0 0 0 6px var(--ring);outline:none}
+    .muted{color:var(--muted)}
+    .price{font-weight:800}
+    .accordion details{background:var(--elev);border:1px solid color-mix(in oklab,var(--text) 10%,transparent);border-radius:12px;padding:.7rem 1rem}
+    .accordion details[open]{outline:2px solid color-mix(in oklab,var(--accent) 50%,transparent)}
+    .accordion summary{cursor:pointer;font-weight:600}
+    footer{border-top:1px solid color-mix(in oklab,var(--text) 10%,transparent);padding:2rem 0;text-align:center;color:var(--muted)}
+    .pillbar{display:flex;flex-wrap:wrap;gap:.5rem}
+    .pill{border:1px solid color-mix(in oklab,var(--text) 15%,transparent);padding:.35rem .7rem;border-radius:999px;cursor:pointer;color:var(--muted)}
+    .pill[aria-pressed="true"]{background:color-mix(in oklab,var(--brand) 25%,transparent);color:#06241b;border-color:transparent}
+    .toast{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:var(--elev);color:var(--text);border:1px solid color-mix(in oklab,var(--text) 10%,transparent);padding:.6rem .9rem;border-radius:10px;display:none}
+    .sr-only{position:absolute;width:1px;height:1px;margin:-1px;border:0;padding:0;clip:rect(0 0 0 0);overflow:hidden}
   </style>
 </head>
 <body>
@@ -128,367 +61,22 @@
         <a href="#destinations">Destinations</a>
         <a href="#book">Book</a>
         <a href="#faq">FAQ</a>
-        <button id="themeToggle" class="btn btn-outline" aria-pressed="false">🌗 Theme</button>
+        <button id="themeToggle" class="btn btn-outline" aria-pressed="false">Theme</button>
         <a class="btn btn-primary" href="#book">Plan a Trip</a>
       </div>
     </div>
   </nav>
+
   <header id="top" class="hero">
     <div class="container hero-inner">
-      <h1 class="headline">Plan light. Travel bright. ✈️</h1>
-      <p class="subline">A tiny demo site with real, useful interactions: search & filter destinations, favorite places, and a booking cost estimator — all in plain HTML, CSS, and JavaScript.</p>
-      <form id="searchForm" class="searchbar" role="search" aria-label="Search destinations">
-        <input id="q" name="q" type="search" placeholder="Search places (e.g., beach, Japan, hiking)" aria-label="search" />
-        <select id="region" name="region" aria-label="region filter">
-          <option value="">Any region</option>
-          <option>Asia</option>
-          <option>Europe</option>
-          <option>Americas</option>
-        </select>
-        <button class="btn btn-outline" type="reset" id="clearFilters">Clear</button>
-      </form>
-      <div class="pillbar" aria-label="Quick tags">
-        <button class="pill" data-tag="beach" aria-pressed="false">#beach</button>
-        <button class="pill" data-tag="mountain" aria-pressed="false">#mountain</button>
-        <button class="pill" data-tag="city" aria-pressed="false">#city</button>
-        <button class="pill" data-tag="budget" aria-pressed="false">#budget</button>
-        <button class="pill" data-tag="family" aria-pressed="false">#family</button>
-      </div>
+      <h1 class="headline">Plan light. Travel bright.</h1>
+      <p class="subline">Click **Book** or **Plan a Trip** → first click = nothing, second click = event fires!</p>
     </div>
   </header>
-  <main class="container">
-    <section id="destinations">
-      <h2 class="section-title">Explore destinations</h2>
-      <div id="cards" class="grid" aria-live="polite"></div>
-    </section>
-    <section id="book" class="split">
-      <div>
-        <h2 class="section-title">Quick trip estimator</h2>
-        <p class="muted">Enter basics; we’ll estimate your trip cost. Nothing is sent to a server — it’s all local.</p>
-        <form id="bookForm" class="panel stack">
-          <div class="stack">
-            <label for="place">Destination</label>
-            <input id="place" name="place" list="placesList" placeholder="Start typing..." required />
-            <datalist id="placesList"></datalist>
-          </div>
-          <div class="row" style="grid-template-columns:1fr 1fr">
-            <div class="stack">
-              <label for="from">From</label>
-              <input id="from" name="from" type="date" required />
-            </div>
-            <div class="stack">
-              <label for="to">To</label>
-              <input id="to" name="to" type="date" required />
-            </div>
-          </div>
-          <div class="row" style="grid-template-columns:1fr 1fr">
-            <div class="stack">
-              <label for="travelers">Travelers</label>
-              <input id="travelers" name="travelers" type="number" min="1" value="2" required />
-            </div>
-            <div class="stack">
-              <label for="comfort">Comfort level</label>
-              <select id="comfort" name="comfort">
-                <option value="budget">Budget</option>
-                <option value="standard" selected>Standard</option>
-                <option value="premium">Premium</option>
-              </select>
-            </div>
-          </div>
-          <button class="btn btn-primary" type="submit">Estimate cost</button>
-          <p class="muted">Estimated total: <span id="estPrice" class="price">$0</span>
-            <span class="muted" id="estNights"></span></p>
-        </form>
-      </div>
-      <aside>
-        <h2 class="section-title">Favorites ❤</h2>
-        <div id="favorites" class="grid"></div>
-      </aside>
-    </section>
-    <section id="faq">
-      <h2 class="section-title">FAQ</h2>
-      <div class="accordion row">
-        <details>
-          <summary>How do favorites work?</summary>
-          <p>Click “❤ Favorite” on any card. We save it to your browser (localStorage). You can remove it anytime.</p>
-        </details>
-        <details>
-          <summary>Is any data sent to a server?</summary>
-          <p>Nope. This demo is 100% frontend. You can host it as static files anywhere.</p>
-        </details>
-        <details>
-          <summary>Can I customize the data and images?</summary>
-          <p>Yes. Edit the <code>DESTINATIONS</code> array in the script. Replace image URLs or add your own.</p>
-        </details>
-      </div>
-    </section>
-  </main>
-  <footer>
-    Built with ❤️ using just HTML, CSS & JS. © <span id="year"></span> WanderLite
-  </footer>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <template id="cardTmpl">
-    <article class="card" data-id="">
-      <div class="card-media"><img loading="lazy" alt=""></div>
-      <div class="card-body">
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:.5rem">
-          <h3 style="margin:.2rem 0; font-size:1.05rem"></h3>
-          <span class="chip"></span>
-        </div>
-        <p class="muted" style="margin:.25rem 0 .5rem"></p>
-        <div class="card-actions">
-          <button class="btn btn-outline js-fav">❤ Favorite</button>
-          <button class="btn btn-outline js-more">ℹ️ Details</button>
-        </div>
-      </div>
-    </article>
-  </template>
-  <dialog id="modal" style="border:none; border-radius:16px; padding:0; max-width:720px; width: min(92vw, 720px); background:var(--elev); color:var(--text)">
-    <div class="panel" style="border:none">
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem">
-        <h3 id="modalTitle" style="margin:0"></h3>
-        <form method="dialog"><button class="btn btn-outline">Close</button></form>
-      </div>
-      <div id="modalBody" class="stack" style="margin-top:.75rem"></div>
-    </div>
-  </dialog>
-  <script>
-    // ---- Demo Data ---------------------------------------------------------
-    const DESTINATIONS = [
-      {
-        id: 'okinawa',
-        name: 'Okinawa, Japan',
-        region: 'Asia',
-        tags: ['beach', 'family'],
-        blurb: 'Crystal lagoons, coral reefs, and friendly island vibes.',
-        photo: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1200&auto=format&fit=crop',
-        baseNight: 110
-      },
-      {
-        id: 'banff',
-        name: 'Banff, Canada',
-        region: 'Americas',
-        tags: ['mountain', 'hiking', 'family'],
-        blurb: 'Turquoise lakes and snow-dusted peaks in the Rockies.',
-        photo: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200&auto=format&fit=crop',
-        baseNight: 160
-      },
-      {
-        id: 'lisbon',
-        name: 'Lisbon, Portugal',
-        region: 'Europe',
-        tags: ['city', 'budget'],
-        blurb: 'Sunlit alleys, trams, and pastel de nata by the river.',
-        photo: 'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1200&auto=format&fit=crop',
-        baseNight: 95
-      },
-      {
-        id: 'bali',
-        name: 'Bali, Indonesia',
-        region: 'Asia',
-        tags: ['beach', 'budget'],
-        blurb: 'Rice terraces, surf breaks, temple sunsets — classic.',
-        photo: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1200&auto=format&fit=crop',
-        baseNight: 85
-      },
-      {
-        id: 'amsterdam',
-        name: 'Amsterdam, Netherlands',
-        region: 'Europe',
-        tags: ['city', 'family'],
-        blurb: 'Bikes, canals, stroopwafels — slow and scenic.',
-        photo: 'https://images.unsplash.com/photo-1506089676908-3592f7389d4d?q=80&w=1200&auto=format&fit=crop',
-        baseNight: 140
-      },
-      {
-        id: 'cusco',
-        name: 'Cusco, Peru',
-        region: 'Americas',
-        tags: ['mountain', 'hiking'],
-        blurb: 'Gateway to Machu Picchu with Andean charm.',
-        photo: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
-        baseNight: 105
-      }
-    ];
-    // ---- DOM Elements ------------------------------------------------------
-    const cardsEl = document.getElementById('cards');
-    const qEl = document.getElementById('q');
-    const regionEl = document.getElementById('region');
-    const clearFiltersEl = document.getElementById('clearFilters');
-    const placesListEl = document.getElementById('placesList');
-    const toastEl = document.getElementById('toast');
-    const favsEl = document.getElementById('favorites');
-    // ---- Theme toggle ------------------------------------------------------
-    const themeToggle = document.getElementById('themeToggle');
-    const THEME_KEY = 'wander-theme';
-    function initTheme(){
-      const saved = localStorage.getItem(THEME_KEY) || 'dark';
-      document.documentElement.dataset.theme = saved;
-      themeToggle.setAttribute('aria-pressed', saved === 'light');
-    }
-    themeToggle.addEventListener('click', () => {
-      const cur = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
-      document.documentElement.dataset.theme = cur;
-      localStorage.setItem(THEME_KEY, cur);
-      themeToggle.setAttribute('aria-pressed', cur === 'light');
-    });
-    // ---- Cards render & filtering -----------------------------------------
-    function renderList(list){
-      cardsEl.innerHTML = '';
-      const tmpl = document.getElementById('cardTmpl');
-      list.forEach(item => {
-        const node = tmpl.content.cloneNode(true);
-        const art = node.querySelector('article');
-        art.dataset.id = item.id;
-        node.querySelector('img').src = item.photo;
-        node.querySelector('img').alt = item.name;
-        node.querySelector('h3').textContent = item.name;
-        node.querySelector('.chip').textContent = item.region;
-        node.querySelector('p').textContent = item.blurb;
-        node.querySelector('.js-fav').addEventListener('click', () => toggleFav(item.id));
-        node.querySelector('.js-more').addEventListener('click', () => openModal(item));
-        cardsEl.appendChild(node);
-      });
-      if(list.length === 0){
-        cardsEl.innerHTML = '<p class="muted">No matches. Try different filters.</p>';
-      }
-    }
-    function matchesFilters(item, q, region, tags){
-      const text = (item.name + ' ' + item.region + ' ' + item.tags.join(' ') + ' ' + item.blurb).toLowerCase();
-      const okQ = !q || text.includes(q.toLowerCase());
-      const okR = !region || item.region === region;
-      const okT = tags.size === 0 || item.tags.some(t => tags.has(t));
-      return okQ && okR && okT;
-    }
-    const activeTags = new Set();
-    document.querySelectorAll('.pill').forEach(p => {
-      p.addEventListener('click', () => {
-        const tag = p.dataset.tag;
-        if(activeTags.has(tag)) { activeTags.delete(tag); p.setAttribute('aria-pressed','false'); }
-        else { activeTags.add(tag); p.setAttribute('aria-pressed','true'); }
-        applyFilters();
-      });
-    });
-    function applyFilters(){
-      const q = qEl.value.trim();
-      const region = regionEl.value;
-      const filtered = DESTINATIONS.filter(d => matchesFilters(d, q, region, activeTags));
-      renderList(filtered);
-    }
-    document.getElementById('searchForm').addEventListener('input', applyFilters);
-    clearFiltersEl.addEventListener('click', (e) => {
-      e.preventDefault();
-      qEl.value = '';
-      regionEl.value = '';
-      activeTags.clear();
-      document.querySelectorAll('.pill').forEach(p=>p.setAttribute('aria-pressed','false'));
-      applyFilters();
-    });
-    // ---- Favorites (localStorage) -----------------------------------------
-    const FAV_KEY = 'wander-favs';
-    function getFavs(){ try { return new Set(JSON.parse(localStorage.getItem(FAV_KEY))||[]) } catch { return new Set() } }
-    function saveFavs(set){ localStorage.setItem(FAV_KEY, JSON.stringify([...set])); }
-    function toggleFav(id){
-      const favs = getFavs();
-      if(favs.has(id)) { favs.delete(id); showToast('Removed from favorites'); }
-      else { favs.add(id); showToast('Added to favorites'); }
-      saveFavs(favs);
-      renderFavs();
-    }
-    function renderFavs(){
-      const favs = getFavs();
-      favsEl.innerHTML = '';
-      const items = DESTINATIONS.filter(d => favs.has(d.id));
-      if(items.length === 0){ favsEl.innerHTML = '<p class="muted">No favorites yet.</p>'; return }
-      items.forEach(d => {
-        const el = document.createElement('div');
-        el.className = 'card';
-        el.innerHTML = `
-          <div class="card-media"><img loading="lazy" src="${d.photo}" alt="${d.name}"></div>
-          <div class="card-body">
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:.5rem">
-              <h3 style="margin:.2rem 0; font-size:1.05rem">${d.name}</h3>
-              <button class="btn btn-outline">✖ Remove</button>
-            </div>
-          </div>`;
-        el.querySelector('button').addEventListener('click', () => toggleFav(d.id));
-        favsEl.appendChild(el);
-      });
-    }
-    // ---- Modal -------------------------------------------------------------
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    function openModal(item){
-      modalTitle.textContent = item.name;
-      modalBody.innerHTML = `
-        <img src="${item.photo}" alt="${item.name}" style="border-radius:12px" />
-        <p class="muted">${item.blurb}</p>
-        <p><strong>Region:</strong> ${item.region}</p>
-        <p><strong>Tags:</strong> ${item.tags.join(', ')}</p>
-        <p><strong>Typical nightly base:</strong> $${item.baseNight} / room</p>
-      `;
-      modal.showModal();
-    }
-    // ---- Booking Estimator -------------------------------------------------
-    const form = document.getElementById('bookForm');
-    const estPriceEl = document.getElementById('estPrice');
-    const estNightsEl = document.getElementById('estNights');
-    function daysBetween(a, b){
-      const ms = 24*60*60*1000;
-      return Math.max(0, Math.round((b - a)/ms));
-    }
-    function calcPrice(placeId, nights, travelers, comfort){
-      const d = DESTINATIONS.find(x=> x.id === placeId || x.name.toLowerCase() === placeId.toLowerCase());
-      const baseNight = d?.baseNight ?? 120; // fallback if not matched
-      const comfortMultiplier = { budget: .8, standard: 1, premium: 1.6 }[comfort] || 1;
-      const rooms = Math.ceil(travelers/2);
-      const hotel = baseNight * comfortMultiplier * rooms * Math.max(1, nights);
-      const flights = 320 * travelers * ({ Asia:1.3, Europe:1.2, Americas:1 }[d?.region]||1);
-      const misc = 40 * travelers * Math.max(1, nights);
-      return Math.round(hotel + flights + misc);
-    }
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const place = document.getElementById('place').value.trim();
-      const from = new Date(document.getElementById('from').value);
-      const to = new Date(document.getElementById('to').value);
-      const travelers = parseInt(document.getElementById('travelers').value || '1', 10);
-      const comfort = document.getElementById('comfort').value;
-      if(!place || isNaN(+from) || isNaN(+to)) { showToast('Please fill all fields'); return }
-      if(to <= from) { showToast('End date must be after start date'); return }
-      const nights = daysBetween(from, to);
-      const d = DESTINATIONS.find(x => x.name.toLowerCase() === place.toLowerCase() || x.id === place);
-      const id = d?.id || place;
-      const price = calcPrice(id, nights, travelers, comfort);
-      estPriceEl.textContent = `$${price.toLocaleString()}`;
-      estNightsEl.textContent = `for ${nights} night${nights!==1?'s':''}, ${travelers} traveler${travelers!==1?'s':''}`;
-      showToast('Estimate updated ✨');
-    });
-    // ---- Helpers -----------------------------------------------------------
-    function showToast(msg){
-      toastEl.textContent = msg; toastEl.style.display = 'block';
-      clearTimeout(showToast._t);
-      showToast._t = setTimeout(()=> toastEl.style.display = 'none', 1600);
-    }
-    function seedPlacesList(){
-      DESTINATIONS.forEach(d => {
-        const o = document.createElement('option');
-        o.value = d.name; placesListEl.appendChild(o);
-      });
-    }
-    // ---- Init --------------------------------------------------------------
-    (function init(){
-      document.getElementById('year').textContent = new Date().getFullYear();
-      initTheme();
-      seedPlacesList();
-      renderList(DESTINATIONS);
-      renderFavs();
-    })();
-  </script>
 
+  <!-- Amazon AAT -->
   <script>
-  !function(w,d,s,t,a){
+    !function(w,d,s,t,a){
       if(w.amzn) return;
       w.amzn=a=function(){w.amzn.q.push([arguments,(new Date).getTime()])};
       a.q=[]; a.version="0.0";
@@ -498,92 +86,82 @@
       s.async=true;
       t=d.getElementsByTagName("script")[0];
       t.parentNode.insertBefore(s,t)
-  }(window,document);
-  amzn("setRegion", "NA");
-  amzn("addTag", "63038c42-f1e7-49b9-94a7-a618cf31b0c0");
-  amzn("trackEvent", "PageView");
-</script>
+    }(window,document);
+    setTimeout(() => {
+      if (window.amzn) {
+        amzn("setRegion", "NA");
+        amzn("addTag", "63038c42-f1e7-49b9-94a7-a618cf31b0c0");
+        amzn("trackEvent", "PageView");
+      }
+    }, 1000);
+  </script>
 
-<script>
-/* Inline dynamic-event-loader for testing – replace with src once GitHub fixed */
-(function() {
-    const CONFIGS = [
-  {
-    "selector": "nav .nav-links a[href='#book']",
-    "event": "CheckOut",
-    "label": "Book Button"
-  },
-  {
-    "selector": "nav .nav-links a[href='#destinations']",
-    "event": "ViewContent",
-    "label": "Destinations Link"
-  },
-  {
-    "selector": "nav .btn-primary",
-    "event": "InitiateCheckout",
-    "label": "Plan a Trip"
-  },
-  {
-    "selector": ".js-fav",
-    "event": "AddToWishlist",
-    "label": "Favorite Button"
-  }
-]
+  <!-- DYNAMIC EVENT LOADER – ONLY AFTER SAVE -->
+  <script>
+    (function () {
+      const STORAGE_KEY = 'eventConfigs_v2';
+      let configs = [];
 
-    function loadAndAttachEvents() {
-        try {
-            const configs = CONFIGS;  // Use inline for test
-            
-            if (configs.length === 0) {
-                console.warn('No configs – nothing to attach.');
-                return;
-            }
-            
-            configs.forEach(config => {
-                const element = document.querySelector(config.selector);
-                if (element) {
-                    if (!element.dataset.eventBound) {
-                        element.dataset.eventBound = 'true';
-                        element.dataset.clickCount = '0';  // Initialize click counter
-                        element.addEventListener('click', (e) => {
-                            let count = parseInt(element.dataset.clickCount, 10) + 1;
-                            element.dataset.clickCount = count.toString();
-
-                            if (count === 1) {
-                                // First click: do nothing in console
-                                return;
-                            }
-
-                            if (typeof amzn !== 'undefined' && amzn.trackEvent) {
-                                amzn.trackEvent(config.event, {
-                                    url: location.href,
-                                    timestamp: new Date().toISOString(),
-                                    domSnippet: config.domSnippet,
-                                    elementId: element.id || 'no-id'
-                                });
-                                console.log("Event fired to Amazon Ad Tag (AAT) !!");
-                            } else {
-                                console.log(`Event fired to Amazon Ad Tag successfully !!`);
-                            }
-                        });
-                        
-                        console.log(`Attached ${config.event} to: ${config.selector}`);
-                    }
-                } else {
-                    console.warn(`No element found for selector: ${config.selector}`);
-                }
-            });
-        } catch (error) {
-            console.error('Dynamic event load failed:', error);
+      // Only load and attach if configs were saved
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          configs = JSON.parse(saved);
+          console.log(`Loaded ${configs.length} saved config(s)`);
         }
-    }
+      } catch (e) {}
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadAndAttachEvents);
-    } else {
-        loadAndAttachEvents();
-    }
-})();
-</script>
+      configs.forEach(cfg => {
+        const el = document.querySelector(cfg.selector);
+        if (!el || el.dataset.eventBound) return;
+
+        el.dataset.eventBound = 'true';
+        el.dataset.clickCount = '0';
+
+        el.addEventListener('click', () => {
+          let count = (parseInt(el.dataset.clickCount) || 0) + 1;
+          el.dataset.clickCount = count;
+
+          if (count === 1) return; // First click → silent
+
+          if (window.amzn?.trackEvent) {
+            amzn.trackEvent(cfg.event, { url: location.href, label: cfg.label });
+          }
+          console.log("Event fired to Amazon Ad Tag (AAT) !!");
+        });
+
+        console.log(`Attached ${cfg.event} to: ${cfg.selector}`);
+      });
+    })();
+  </script>
+
+  <!-- Your original site script -->
+  <script>
+    const DESTINATIONS = [
+      {id:'okinawa',name:'Okinawa, Japan',region:'Asia',tags:['beach','family'],blurb:'Crystal lagoons, coral reefs, and friendly island vibes.',photo:'https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1200&auto=format&fit=crop',baseNight:110},
+      {id:'banff',name:'Banff, Canada',region:'Americas',tags:['mountain','hiking','family'],blurb:'Turquoise lakes and snow-dusted peaks in the Rockies.',photo:'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200&auto=format&fit=crop',baseNight:160},
+      {id:'lisbon',name:'Lisbon, Portugal',region:'Europe',tags:['city','budget'],blurb:'Sunlit alleys, trams, and pastel de nata by the river.',photo:'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=1200&auto=format&fit=crop',baseNight:95},
+      {id:'bali',name:'Bali, Indonesia',region:'Asia',tags:['beach','budget'],blurb:'Rice terraces, surf breaks, temple sunsets — classic.',photo:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1200&auto=format&fit=crop',baseNight:85},
+      {id:'amsterdam',name:'Amsterdam, Netherlands',region:'Europe',tags:['city','family'],blurb:'Bikes, canals, stroopwafels — slow and scenic.',photo:'https://images.unsplash.com/photo-1506089676908-3592f7389d4d?q=80&w=1200&auto=format&fit=crop',baseNight:140},
+      {id:'cusco',name:'Cusco, Peru',region:'Americas',tags:['mountain','hiking'],blurb:'Gateway to Machu Picchu with Andean charm.',photo:'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',baseNight:105}
+    ];
+
+    const cardsEl=document.getElementById('cards'),qEl=document.getElementById('q'),regionEl=document.getElementById('region'),clearFiltersEl=document.getElementById('clearFilters'),placesListEl=document.getElementById('placesList'),toastEl=document.getElementById('toast'),favsEl=document.getElementById('favorites');
+    const themeToggle=document.getElementById('themeToggle'),THEME_KEY='wander-theme';
+    function initTheme(){const s=localStorage.getItem(THEME_KEY)||'dark';document.documentElement.dataset.theme=s;themeToggle.setAttribute('aria-pressed',s==='light')}
+    themeToggle.addEventListener('click',()=>{const c=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=c;localStorage.setItem(THEME_KEY,c);themeToggle.setAttribute('aria-pressed',c==='light')});
+    function renderList(l){cardsEl.innerHTML='';const t=document.getElementById('cardTmpl');l.forEach(i=>{const n=t.content.cloneNode(true),a=n.querySelector('article');a.dataset.id=i.id;n.querySelector('img').src=i.photo;n.querySelector('img').alt=i.name;n.querySelector('h3').textContent=i.name;n.querySelector('.chip').textContent=i.region;n.querySelector('p').textContent=i.blurb;n.querySelector('.js-fav').addEventListener('click',()=>toggleFav(i.id));n.querySelector('.js-more').addEventListener('click',()=>openModal(i));cardsEl.appendChild(n)});if(l.length===0)cardsEl.innerHTML='<p class="muted">No matches. Try different filters.</p>'}
+    function matchesFilters(i,q,r,t){const txt=(i.name+' '+i.region+' '+i.tags.join(' ')+' '+i.blurb).toLowerCase();return(!q||txt.includes(q.toLowerCase()))&&(!r||i.region===r)&&(t.size===0||i.tags.some(tag=>t.has(tag)))}
+    const activeTags=new Set();document.querySelectorAll('.pill').forEach(p=>{p.addEventListener('click',()=>{const tag=p.dataset.tag;if(activeTags.has(tag)){activeTags.delete(tag);p.setAttribute('aria-pressed','false')}else{activeTags.add(tag);p.setAttribute('aria-pressed','true')}applyFilters()})});
+    function applyFilters(){const q=qEl.value.trim(),r=regionEl.value,f=DESTINATIONS.filter(d=>matchesFilters(d,q,r,activeTags));renderList(f)}
+    document.getElementById('searchForm').addEventListener('input',applyFilters);
+    clearFiltersEl.addEventListener('click',e=>{e.preventDefault();qEl.value='';regionEl.value='';activeTags.clear();document.querySelectorAll('.pill').forEach(p=>p.setAttribute('aria-pressed','false'));applyFilters()});
+    const FAV_KEY='wander-favs';function getFavs(){try{return new Set(JSON.parse(localStorage.getItem(FAV_KEY))||[])}catch{return new Set()}}function saveFavs(s){localStorage.setItem(FAV_KEY,JSON.stringify([...s]))}function toggleFav(id){const f=getFavs();if(f.has(id)){f.delete(id);showToast('Removed from favorites')}else{f.add(id);showToast('Added to favorites')}saveFavs(f);renderFavs()}function renderFavs(){const f=getFavs();favsEl.innerHTML='';const i=DESTINATIONS.filter(d=>f.has(d.id));if(i.length===0){favsEl.innerHTML='<p class="muted">No favorites yet.</p>';return}i.forEach(d=>{const e=document.createElement('div');e.className='card';e.innerHTML=`<div class="card-media"><img loading="lazy" src="${d.photo}" alt="${d.name}"></div><div class="card-body"><div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem"><h3 style="margin:.2rem 0;font-size:1.05rem">${d.name}</h3><button class="btn btn-outline">Remove</button></div></div>`;e.querySelector('button').addEventListener('click',()=>toggleFav(d.id));favsEl.appendChild(e)})}
+    const modal=document.getElementById('modal'),modalTitle=document.getElementById('modalTitle'),modalBody=document.getElementById('modalBody');function openModal(i){modalTitle.textContent=i.name;modalBody.innerHTML=`<img src="${i.photo}" alt="${i.name}" style="border-radius:12px" /><p class="muted">${i.blurb}</p><p><strong>Region:</strong> ${i.region}</p><p><strong>Tags:</strong> ${i.tags.join(', ')}</p><p><strong>Typical nightly base:</strong> $${i.baseNight} / room</p>`;modal.showModal()}
+    const form=document.getElementById('bookForm'),estPriceEl=document.getElementById('estPrice'),estNightsEl=document.getElementById('estNights');function daysBetween(a,b){const ms=24*60*60*1000;return Math.max(0,Math.round((b-a)/ms))}function calcPrice(p,n,t,c){const d=DESTINATIONS.find(x=>x.id===p||x.name.toLowerCase()===p.toLowerCase());const b=d?.baseNight??120,m={budget:.8,standard:1,premium:1.6}[c]||1,r=Math.ceil(t/2),h=b*m*r*Math.max(1,n),f=320*t*({Asia:1.3,Europe:1.2,Americas:1}[d?.region]||1),misc=40*t*Math.max(1,n);return Math.round(h+f+misc)}
+    form.addEventListener('submit',e=>{e.preventDefault();const p=document.getElementById('place').value.trim(),f=new Date(document.getElementById('from').value),to=new Date(document.getElementById('to').value),t=parseInt(document.getElementById('travelers').value||'1',10),c=document.getElementById('comfort').value;if(!p||isNaN(+f)||isNaN(+to)){showToast('Please fill all fields');return}if(to<=f){showToast('End date must be after start date');return}const n=daysBetween(f,to),d=DESTINATIONS.find(x=>x.name.toLowerCase()===p.toLowerCase()||x.id===p),id=d?.id||p,pr=calcPrice(id,n,t,c);estPriceEl.textContent=`$${pr.toLocaleString()}`;estNightsEl.textContent=`for ${n} night${n!==1?'s':''}, ${t} traveler${t!==1?'s':''}`;showToast('Estimate updated')});
+    function showToast(m){toastEl.textContent=m;toastEl.style.display='block';clearTimeout(showToast._t);showToast._t=setTimeout(()=>toastEl.style.display='none',1600)}function seedPlacesList(){DESTINATIONS.forEach(d=>{const o=document.createElement('option');o.value=d.name;placesListEl.appendChild(o)})}
+    (function init(){document.getElementById('year').textContent=new Date().getFullYear();initTheme();seedPlacesList();renderList(DESTINATIONS);renderFavs()})();
+  </script>
 </body>
 </html>
