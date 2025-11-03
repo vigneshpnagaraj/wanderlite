@@ -1,7 +1,7 @@
 [
   {
-    "selector": "html > body > nav > div > a:nth-of-type(2)",
+    "selector": "nav .nav-links a[href='#book']",
     "event": "CheckOut",
-    "domSnippet": "<a href=\"#book\" data-builder-glow=\"true\" style=\"cursor: pointer; position: relative; box-shadow: rgb(255, 255, 0) 0px 0px 12px; outline: rgb(255, 255, 0) solid 2px;\">Book</a>"
+    "domSnippet": "<a href=\"#book\">Book</a>"
   }
-]  
+]
