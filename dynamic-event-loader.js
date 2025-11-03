@@ -7,7 +7,7 @@
 
     async function loadAndAttachEvents() {
         try {
-            const response = await fetch(CONFIG_URL, { cache: 'no-store' }); // No cache for fresh fetches
+            const response = await fetch(CONFIG_URL, { cache: 'no-store' });
             if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
             
             const configs = await response.json(); // Array of {selector, event, domSnippet}
@@ -20,17 +20,20 @@
             configs.forEach(config => {
                 const element = document.querySelector(config.selector);
                 if (element) {
+                    // Attach click listener (remove if already bound)
                     if (!element.dataset.eventBound) {
                         element.dataset.eventBound = 'true';
                         element.addEventListener('click', (e) => {
-                            // e.preventDefault(); // Uncomment if you want to block the link's default (scroll)
+                            // Prevent default if needed (e.g., for links)
+                            // e.preventDefault(); // Uncomment if it should not navigate
                             
+                            // Track via AAT (from event-tracker.js)
                             if (typeof amzn !== 'undefined' && amzn.trackEvent) {
                                 amzn.trackEvent(config.event, {
                                     url: location.href,
                                     timestamp: new Date().toISOString(),
                                     domSnippet: config.domSnippet,
-                                    elementId: element.id || 'no-id'
+                                    elementId: element.id || 'no-id' // Extra context
                                 });
                                 console.log(`Amazon tag fired: ${config.event} on ${config.selector}`);
                             } else {
@@ -49,7 +52,7 @@
         }
     }
 
-    // Load after DOM is ready
+    // Load after DOM and amzn.js are ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', loadAndAttachEvents);
     } else {
