@@ -117,7 +117,6 @@
 
     .toast { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%);
       background: var(--elev); color: var(--text); border: 1px solid color-mix(in oklab, var(--text) 10%, transparent); padding: .6rem .9rem; border-radius: 10px; display:none }
-
     .sr-only { position:absolute; width:1px; height:1px; margin:-1px; border:0; padding:0; clip:rect(0 0 0 0); overflow:hidden }
   </style>
 </head>
@@ -134,12 +133,10 @@
       </div>
     </div>
   </nav>
-
   <header id="top" class="hero">
     <div class="container hero-inner">
       <h1 class="headline">Plan light. Travel bright. ✈️</h1>
       <p class="subline">A tiny demo site with real, useful interactions: search & filter destinations, favorite places, and a booking cost estimator — all in plain HTML, CSS, and JavaScript.</p>
-
       <form id="searchForm" class="searchbar" role="search" aria-label="Search destinations">
         <input id="q" name="q" type="search" placeholder="Search places (e.g., beach, Japan, hiking)" aria-label="search" />
         <select id="region" name="region" aria-label="region filter">
@@ -150,7 +147,6 @@
         </select>
         <button class="btn btn-outline" type="reset" id="clearFilters">Clear</button>
       </form>
-
       <div class="pillbar" aria-label="Quick tags">
         <button class="pill" data-tag="beach" aria-pressed="false">#beach</button>
         <button class="pill" data-tag="mountain" aria-pressed="false">#mountain</button>
@@ -160,13 +156,11 @@
       </div>
     </div>
   </header>
-
   <main class="container">
     <section id="destinations">
       <h2 class="section-title">Explore destinations</h2>
       <div id="cards" class="grid" aria-live="polite"></div>
     </section>
-
     <section id="book" class="split">
       <div>
         <h2 class="section-title">Quick trip estimator</h2>
@@ -206,13 +200,11 @@
             <span class="muted" id="estNights"></span></p>
         </form>
       </div>
-
       <aside>
         <h2 class="section-title">Favorites ❤</h2>
         <div id="favorites" class="grid"></div>
       </aside>
     </section>
-
     <section id="faq">
       <h2 class="section-title">FAQ</h2>
       <div class="accordion row">
@@ -231,13 +223,10 @@
       </div>
     </section>
   </main>
-
   <footer>
     Built with ❤️ using just HTML, CSS & JS. © <span id="year"></span> WanderLite
   </footer>
-
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
   <template id="cardTmpl">
     <article class="card" data-id="">
       <div class="card-media"><img loading="lazy" alt=""></div>
@@ -254,7 +243,6 @@
       </div>
     </article>
   </template>
-
   <dialog id="modal" style="border:none; border-radius:16px; padding:0; max-width:720px; width: min(92vw, 720px); background:var(--elev); color:var(--text)">
     <div class="panel" style="border:none">
       <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem">
@@ -264,7 +252,6 @@
       <div id="modalBody" class="stack" style="margin-top:.75rem"></div>
     </div>
   </dialog>
-
   <script>
     // ---- Demo Data ---------------------------------------------------------
     const DESTINATIONS = [
@@ -323,7 +310,6 @@
         baseNight: 105
       }
     ];
-
     // ---- DOM Elements ------------------------------------------------------
     const cardsEl = document.getElementById('cards');
     const qEl = document.getElementById('q');
@@ -332,7 +318,6 @@
     const placesListEl = document.getElementById('placesList');
     const toastEl = document.getElementById('toast');
     const favsEl = document.getElementById('favorites');
-
     // ---- Theme toggle ------------------------------------------------------
     const themeToggle = document.getElementById('themeToggle');
     const THEME_KEY = 'wander-theme';
@@ -347,7 +332,6 @@
       localStorage.setItem(THEME_KEY, cur);
       themeToggle.setAttribute('aria-pressed', cur === 'light');
     });
-
     // ---- Cards render & filtering -----------------------------------------
     function renderList(list){
       cardsEl.innerHTML = '';
@@ -369,7 +353,6 @@
         cardsEl.innerHTML = '<p class="muted">No matches. Try different filters.</p>';
       }
     }
-
     function matchesFilters(item, q, region, tags){
       const text = (item.name + ' ' + item.region + ' ' + item.tags.join(' ') + ' ' + item.blurb).toLowerCase();
       const okQ = !q || text.includes(q.toLowerCase());
@@ -377,7 +360,6 @@
       const okT = tags.size === 0 || item.tags.some(t => tags.has(t));
       return okQ && okR && okT;
     }
-
     const activeTags = new Set();
     document.querySelectorAll('.pill').forEach(p => {
       p.addEventListener('click', () => {
@@ -387,14 +369,12 @@
         applyFilters();
       });
     });
-
     function applyFilters(){
       const q = qEl.value.trim();
       const region = regionEl.value;
       const filtered = DESTINATIONS.filter(d => matchesFilters(d, q, region, activeTags));
       renderList(filtered);
     }
-
     document.getElementById('searchForm').addEventListener('input', applyFilters);
     clearFiltersEl.addEventListener('click', (e) => {
       e.preventDefault();
@@ -404,12 +384,10 @@
       document.querySelectorAll('.pill').forEach(p=>p.setAttribute('aria-pressed','false'));
       applyFilters();
     });
-
     // ---- Favorites (localStorage) -----------------------------------------
     const FAV_KEY = 'wander-favs';
     function getFavs(){ try { return new Set(JSON.parse(localStorage.getItem(FAV_KEY))||[]) } catch { return new Set() } }
     function saveFavs(set){ localStorage.setItem(FAV_KEY, JSON.stringify([...set])); }
-
     function toggleFav(id){
       const favs = getFavs();
       if(favs.has(id)) { favs.delete(id); showToast('Removed from favorites'); }
@@ -417,7 +395,6 @@
       saveFavs(favs);
       renderFavs();
     }
-
     function renderFavs(){
       const favs = getFavs();
       favsEl.innerHTML = '';
@@ -438,7 +415,6 @@
         favsEl.appendChild(el);
       });
     }
-
     // ---- Modal -------------------------------------------------------------
     const modal = document.getElementById('modal');
     const modalTitle = document.getElementById('modalTitle');
@@ -454,17 +430,14 @@
       `;
       modal.showModal();
     }
-
     // ---- Booking Estimator -------------------------------------------------
     const form = document.getElementById('bookForm');
     const estPriceEl = document.getElementById('estPrice');
     const estNightsEl = document.getElementById('estNights');
-
     function daysBetween(a, b){
       const ms = 24*60*60*1000;
       return Math.max(0, Math.round((b - a)/ms));
     }
-
     function calcPrice(placeId, nights, travelers, comfort){
       const d = DESTINATIONS.find(x=> x.id === placeId || x.name.toLowerCase() === placeId.toLowerCase());
       const baseNight = d?.baseNight ?? 120; // fallback if not matched
@@ -475,7 +448,6 @@
       const misc = 40 * travelers * Math.max(1, nights);
       return Math.round(hotel + flights + misc);
     }
-
     form.addEventListener('submit', (e)=>{
       e.preventDefault();
       const place = document.getElementById('place').value.trim();
@@ -483,34 +455,28 @@
       const to = new Date(document.getElementById('to').value);
       const travelers = parseInt(document.getElementById('travelers').value || '1', 10);
       const comfort = document.getElementById('comfort').value;
-
       if(!place || isNaN(+from) || isNaN(+to)) { showToast('Please fill all fields'); return }
       if(to <= from) { showToast('End date must be after start date'); return }
-
       const nights = daysBetween(from, to);
       const d = DESTINATIONS.find(x => x.name.toLowerCase() === place.toLowerCase() || x.id === place);
       const id = d?.id || place;
       const price = calcPrice(id, nights, travelers, comfort);
-
       estPriceEl.textContent = `$${price.toLocaleString()}`;
       estNightsEl.textContent = `for ${nights} night${nights!==1?'s':''}, ${travelers} traveler${travelers!==1?'s':''}`;
       showToast('Estimate updated ✨');
     });
-
     // ---- Helpers -----------------------------------------------------------
     function showToast(msg){
       toastEl.textContent = msg; toastEl.style.display = 'block';
       clearTimeout(showToast._t);
       showToast._t = setTimeout(()=> toastEl.style.display = 'none', 1600);
     }
-
     function seedPlacesList(){
       DESTINATIONS.forEach(d => {
         const o = document.createElement('option');
         o.value = d.name; placesListEl.appendChild(o);
       });
     }
-
     // ---- Init --------------------------------------------------------------
     (function init(){
       document.getElementById('year').textContent = new Date().getFullYear();
@@ -578,7 +544,16 @@
                 if (element) {
                     if (!element.dataset.eventBound) {
                         element.dataset.eventBound = 'true';
+                        element.dataset.clickCount = '0';  // Initialize click counter
                         element.addEventListener('click', (e) => {
+                            let count = parseInt(element.dataset.clickCount, 10) + 1;
+                            element.dataset.clickCount = count.toString();
+
+                            if (count === 1) {
+                                // First click: do nothing in console
+                                return;
+                            }
+
                             if (typeof amzn !== 'undefined' && amzn.trackEvent) {
                                 amzn.trackEvent(config.event, {
                                     url: location.href,
@@ -586,7 +561,7 @@
                                     domSnippet: config.domSnippet,
                                     elementId: element.id || 'no-id'
                                 });
-                                console.log(`Amazon tag fired: ${config.event} on ${config.selector}`);
+                                console.log("Event fired to Amazon Ad Tag (AAT) !!");
                             } else {
                                 console.log(`Event fired to Amazon Ad Tag successfully !!`);
                             }
@@ -610,7 +585,5 @@
     }
 })();
 </script>
-</body>
-  
 </body>
 </html>
