@@ -541,13 +541,28 @@
 <script>
 /* Inline dynamic-event-loader for testing – replace with src once GitHub fixed */
 (function() {
-    const CONFIGS = [  // Inline JSON for testing (replace with fetch later)
-      {
-        "selector": "nav .nav-links a[href='#book']",
-        "event": "CheckOut",
-        "domSnippet": "<a href=\"#book\">Book</a>"
-      }
-    ];
+    const CONFIGS = [
+  {
+    "selector": "nav .nav-links a[href='#book']",
+    "event": "CheckOut",
+    "label": "Book Button"
+  },
+  {
+    "selector": "nav .nav-links a[href='#destinations']",
+    "event": "ViewContent",
+    "label": "Destinations Link"
+  },
+  {
+    "selector": "nav .btn-primary",
+    "event": "InitiateCheckout",
+    "label": "Plan a Trip"
+  },
+  {
+    "selector": ".js-fav",
+    "event": "AddToWishlist",
+    "label": "Favorite Button"
+  }
+]
 
     function loadAndAttachEvents() {
         try {
