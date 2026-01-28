@@ -61,15 +61,13 @@
   <!-- TikTok Pixel Code Start --><script>!function (w, d, t) {  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};  ttq.load('D4P5S43C77U2G3ERGAS0');  ttq.page();}(window, document, 'ttq');</script><!-- TikTok Pixel Code End -->
 
   <!-- ================= AMAZON AD TAG ================= -->
-  <!-- Replace AMZN-PIXEL-ID with your Amazon Pixel ID -->
-  <script>
-    !function(a9,a,p,s,t,A,g){
-      if(a9)return;function q(c,r){a9[c]=function(){a9.push([c,r])}}
-      a9=[];a9._Q=[];q("track","PageView");
-      A=p.createElement(s);A.async=!0;A.src=t;
-      g=p.getElementsByTagName(s)[0];g.parentNode.insertBefore(A,g)
-    }(window, document, 'script', 'https://c.amazon-adsystem.com/aax2/apstag.js');
-  </script>
+<script>
+        !function(w,d,s,t,a){if(w.amzn)return;w.amzn=a=function(){w.amzn.q.push([arguments,(new Date).getTime()])};a.q=[];a.version="0.0";s=d.createElement("script");s.src="https://c.amazon-adsystem.com/aat/amzn.js";s.id="amzn-pixel";s.async=true;t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t)}(window,document);
+        amzn("setRegion", "NA");
+        amzn("addTag", "ebba7708-376c-43cf-9a8b-9f57f2660f1c");
+        amzn("trackEvent", "PageView");
+  </script>
+
 
   <style>
     body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; }
