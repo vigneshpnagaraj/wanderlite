@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Pro Store | Scanner Sandbox</title>
+    <style>
+        :root { --nike-black: #111; --nike-gray: #f5f5f5; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: var(--nike-black); }
+        nav { display: flex; justify-content: space-between; padding: 20px 40px; border-bottom: 1px solid #ddd; }
+        .hero { height: 60vh; background: #eee; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .product-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px; }
+        .product-card { background: var(--nike-gray); padding: 20px; transition: transform 0.2s; position: relative; }
+        .product-card:hover { transform: translateY(-5px); }
+        .size-selector { margin: 15px 0; display: flex; gap: 5px; }
+        .size-chip { border: 1px solid #ccc; padding: 5px 10px; cursor: pointer; background: white; }
+        .size-chip.active { border: 2px solid black; font-weight: bold; }
+        .btn-black { background: black; color: white; padding: 12px 24px; border: none; cursor: pointer; width: 100%; }
+        #search-input { padding: 8px; border: 1px solid #ccc; border-radius: 20px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo"><strong>PRO-STORE</strong></div>
+    <div class="menu">
+        <span>New Releases</span> | <span>Men</span> | <span>Women</span>
+    </div>
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search sneakers...">
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>JUST SCAN IT.</h1>
+    <p>Premium collection 2026</p>
+</section>
+
+<main class="product-container" id="catalog">
+    </main>
+
+<script>
+    // 1. DATA LAYER INITIALIZATION (The "Brain")
+    window.dataLayer = window.dataLayer || [];
+
+    const products = [
+        { id: 'NK-01', name: 'Air Jordan Retro', price: 190, category: 'Basketball' },
+        { id: 'NK-02', name: 'Zoom Fly 5', price: 160, category: 'Running' },
+        { id: 'NK-03', name: 'Air Max 270', price: 150, category: 'Lifestyle' }
+    ];
+
+    // 2. DYNAMIC RENDERING
+    const catalog = document.getElementById('catalog');
+    products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <h3>${p.name}</h3>
+            <p>${p.category} • $${p.price}</p>
+            <div class="size-selector">
+                <div class="size-chip">8</div><div class="size-chip">9</div><div class="size-chip">10</div>
+            </div>
+            <button class="btn-black add-to-cart-btn" data-id="${p.id}">Add to Cart</button>
+        `;
+        catalog.appendChild(card);
+    });
+
+    // 3. ADVANCED EVENT LISTENERS (For your scanner to find)
+
+    // A. SEARCH SCANNING (Keyup event)
+    document.getElementById('search-input').addEventListener('keyup', (e) => {
+        if(e.key === 'Enter') {
+            window.dataLayer.push({ event: 'search', query: e.target.value });
+            console.log("Scanner Alert: Search Performed");
+        }
+    });
+
+    // B. SIZE SELECTION (Click Delegation)
+    document.addEventListener('click', (e) => {
+        if(e.target.classList.contains('size-chip')) {
+            document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('active'));
+            e.target.classList.add('active');
+            window.dataLayer.push({ event: 'size_select', size: e.target.innerText });
+        }
+    });
+
+    // C. ADD TO CART (Logic Separation)
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const pid = this.getAttribute('data-id');
+            const product = products.find(x => x.id === pid);
+            
+            // Standard Tracking
+            window.dataLayer.push({
+                event: 'add_to_cart',
+                ecommerce: { items: [product] }
+            });
+            alert(`Added ${product.name} to cart!`);
+        });
+    });
+
+    // D. SCROLL TRACKING (Deep Scanning)
+    let scrolled25 = false;
+    window.addEventListener('scroll', () => {
+        const progress = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+        if (progress > 25 && !scrolled25) {
+            window.dataLayer.push({ event: 'scroll_depth', percent: '25%' });
+            scrolled25 = true;
+            console.log("Scanner Alert: User is engaged (25% scrolled)");
+        }
+    });
+</script>
+</body>
+</html>
