@@ -80,7 +80,13 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 </script>
 
 <!-- Button that fires a custom event -->
-<button onclick="amzn('trackEvent', 'BookTrip', {value: '500', currency: 'USD', attr1: 'Goa'})">
+<button onclick="amzn('trackEvent', 'TravelCheckout', {
+    value: '750',
+    currency: 'INR',
+    attr1: destination,
+    attr2: 'premium_package',
+    attr3: '5nights'
+})">
     Book Now
 </button>
 
