@@ -64,12 +64,25 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 <!-- TikTok Pixel Code End -->
 
   <!-- ================= AMAZON AD TAG ================= -->
-<script>
+<!-- <script>
         !function(w,d,s,t,a){if(w.amzn)return;w.amzn=a=function(){w.amzn.q.push([arguments,(new Date).getTime()])};a.q=[];a.version="0.0";s=d.createElement("script");s.src="https://c.amazon-adsystem.com/aat/amzn.js";s.id="amzn-pixel";s.async=true;t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t)}(window,document);
         amzn("setRegion", "NA");
         amzn("addTag", "2a997c31-8f4a-4573-b099-cb1b033c77a2");
         amzn("trackEvent", "PageView");
-  </script>
+  </script> -->
+
+  <!-- Amazon Ad Tag -->
+<script>
+    !function(w,d,s,t,a){if(w.amzn)return;w.amzn=a=function(){w.amzn.q.push([arguments,(new Date).getTime()])};a.q=[];a.version="0.0";s=d.createElement("script");s.src="https://c.amazon-adsystem.com/aat/amzn.js";s.id="amzn-pixel";s.async=true;t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t)}(window,document);
+    amzn("setRegion", "NA");
+    amzn("addTag", "63038c42-f1e7-49b9-94a7-a618cf31b0c0");
+    amzn("trackEvent", "PageView");
+</script>
+
+<!-- Button that fires a custom event -->
+<button onclick="amzn('trackEvent', 'BookTrip', {value: '500', currency: 'USD', attr1: 'Goa'})">
+    Book Now
+</button>
 
   <style>
     body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; }
